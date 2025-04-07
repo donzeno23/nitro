@@ -110,6 +110,21 @@ def metrics_stage(testcase_params):
         depends_on='dependent_strategy'
     )
 
+def graph_stage(testcase_params):
+    return Stage(
+        name='graphs_stage',
+        action='graph',
+        params={'graph_type': 'bar'},
+        depends_on='metrics_stage'
+    )
+
+def report_stage(testcase_params):
+    return Stage(
+        name='report_stage',
+        action='generate_report',
+        params={'report_type': 'macro'},
+        depends_on='graph_stage'
+    )
 
 # Pre-defined stage collections
 # Uncomment if not using StageFactory
@@ -194,6 +209,8 @@ StageFactory.register_factory('sleep_2s', sleep_2s_stage)
 StageFactory.register_factory('read_file', read_file_stage)
 StageFactory.register_factory('recover_db', recover_db_stage)
 StageFactory.register_factory('metrics_stage', metrics_stage)
+StageFactory.register_factory('report_stage', report_stage)
+
 
 def get_stages(stage_names, testcase_params):
     """

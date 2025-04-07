@@ -119,3 +119,65 @@ class StageExecutionSuite:
             result.true(all(r != "Failed: Action execution failed." for r in results), "All stages passed")
         except RuntimeError as e:
             result.fail(f"Test failed: {e}")
+
+@testsuite(name="Test Unregistered Stage")
+class UnregisteredStageExecutionSuite:
+    # def __init__(self, stage_names, testcase_params):
+    def __init__(self):
+        self.stage_names = ['http_get', 'unregistered_stage', 'read_file']
+        # self.stage_names = stage_names
+        self.testcase_params = {"http_url": "https://httpbin.org/get", "file_path": "my_file.txt"}
+        # self.testcase_params = testcase_params
+
+    @testcase(name="unregistered_stage_test_case")
+    def execute_unregistered_stages(self, env, result):
+        """
+        Executes the stages using the TestOrchestrator.
+        """
+        print("*********** Running unregistered stage execution test case...")
+        test_orchestrator = TestOrchestrator(self.stage_names, self.testcase_params)
+        try:
+            results = test_orchestrator.execute_test()
+            result.true(all(r != "Failed: Action execution failed." for r in results), "All stages passed")
+        except RuntimeError as e:
+            result.fail(f"Test failed: {e}")
+
+
+@testsuite(name="Test Graph Stage - Unregistered Stage")
+class UnregisteredGraphStageExecutionSuite:
+    def __init__(self):
+        self.stage_names = ['http_get', 'graph_stage', 'read_file']
+        self.testcase_params = {"http_url": "https://httpbin.org/get", "file_path": "my_file.txt"}
+
+    @testcase(name="unregistered_graph_stage_test_case")
+    def execute_unregistered_stages(self, env, result):
+        """
+        Executes the stages using the TestOrchestrator.
+        """
+        print("*********** Running unregistered stage execution test case...")
+        test_orchestrator = TestOrchestrator(self.stage_names, self.testcase_params)
+        try:
+            results = test_orchestrator.execute_test()
+            result.true(all(r != "Failed: Action execution failed." for r in results), "All stages passed")
+        except RuntimeError as e:
+            result.fail(f"Test failed: {e}")
+
+
+@testsuite(name="Test Report Stage - Unregistered Dependency Stage")
+class UnregisteredReportStageExecutionSuite:
+    def __init__(self):
+        self.stage_names = ['http_get', 'graph_stage', 'report_stage']
+        self.testcase_params = {"http_url": "https://httpbin.org/get", "file_path": "my_file.txt"}
+
+    @testcase(name="unregistered_dependency_stage_test_case")
+    def execute_unregistered_dependency_stages(self, env, result):
+        """
+        Executes the stages using the TestOrchestrator.
+        """
+        print("*********** Running unregistered stage execution test case...")
+        test_orchestrator = TestOrchestrator(self.stage_names, self.testcase_params)
+        try:
+            results = test_orchestrator.execute_test()
+            result.true(all(r != "Failed: Action execution failed." for r in results), "All stages passed")
+        except RuntimeError as e:
+            result.fail(f"Test failed: {e}")

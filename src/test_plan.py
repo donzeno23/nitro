@@ -12,7 +12,12 @@ from testplan.report.testing.styles import Style, StyleEnum
 from testplan import test_plan
 from testplan.testing.multitest import MultiTest
 # from testplan.runners.pools import ThreadPool
-from test_suites import PerformanceTestSuite, RecoveryTestSuite, StageExecutionSuite
+from test_suites import (
+  PerformanceTestSuite, RecoveryTestSuite, 
+  StageExecutionSuite, UnregisteredStageExecutionSuite,
+  UnregisteredGraphStageExecutionSuite,
+  UnregisteredReportStageExecutionSuite
+)
 
 from lib.nitro.orchestrator import TestOrchestrator
 
@@ -32,11 +37,20 @@ def my_plan(plan):
         print("========== Creating MultiTest plan...")
         multi_test = MultiTest(
           name='Environment Setup',
-          suites=[PerformanceTestSuite(), RecoveryTestSuite(), StageExecutionSuite()],
+          suites=[
+              PerformanceTestSuite(), 
+              RecoveryTestSuite(), 
+              StageExecutionSuite(),
+              UnregisteredStageExecutionSuite(),
+              UnregisteredGraphStageExecutionSuite(),
+              UnregisteredReportStageExecutionSuite(),
+          ],
         )
         # Add the test suite to the plan
         print("========== Adding test suites...")
         plan.add(multi_test)
+
+        """ Example usage of the TestOrchestrator
 
         # Example usage (create dummy test file)
         print("========== Creating dummy test file...")
@@ -53,9 +67,11 @@ def my_plan(plan):
         print("\n[bold orange3] Final Test Results: {results} [/bold orange3]")
         for stage_name, result in test_orchestrator._stage_results.items():
             print(f"Stage: {stage_name}, Result: {result}")
+        
 
         # Return success if all stages pass
         return True
+        """
 
     except RuntimeError as e:
         # Log the error and return failure

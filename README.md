@@ -1,5 +1,8 @@
-# nitro
-Test toolkit
+# NitroPulse
+
+```text
+It conveys speed, performance, and precision, aligning well with the goals of a performance testing toolkit.
+```
 
 # Example Output
 
